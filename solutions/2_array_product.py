@@ -15,19 +15,18 @@ class Solution:
         if len(nums) == 0:
             return []
 
-        prod = 1
-        prod_map = {}
-        for idx in reversed(range(len(nums))):
-            prod_map[idx] = prod
-            prod *= nums[idx]
+        result = [0] * len(nums)
 
-        prod = 1
-        final_result = []
-        for idx, number in enumerate(nums):
-            final_result.append(prod * prod_map[idx])
-            prod *= number
+        result[-1] = 1
+        for idx in range(len(nums) - 2, -1, -1):
+            result[idx] = result[idx + 1] * nums[idx + 1]
 
-        return final_result
+        leftside_prod = 1
+        for idx in range(len(nums)):
+            result[idx] = leftside_prod * result[idx]
+            leftside_prod *= nums[idx]
+
+        return result
 
 
 class MyTestSuite(unittest.TestCase):
